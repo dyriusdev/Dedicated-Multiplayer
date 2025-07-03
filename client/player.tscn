@@ -11,8 +11,11 @@ autostart = true
 [node name="Chat" type="CanvasLayer" parent="."]
 
 [node name="Container" type="VBoxContainer" parent="Chat"]
+anchors_preset = 9
+anchor_bottom = 1.0
 offset_right = 384.0
-offset_bottom = 648.0
+grow_vertical = 2
+size_flags_vertical = 3
 
 [node name="Messages" type="RichTextLabel" parent="Chat/Container"]
 layout_mode = 2
