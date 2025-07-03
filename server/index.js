@@ -9,7 +9,7 @@ console.log(`WebSocket Server starting at port : ${PORT}`)
 
 // Object to store the state of connected clients
 const clients = {}
-const nextId = 0
+let nextId = 1
 
 
 // Event called when client connect
@@ -29,8 +29,8 @@ SERVER.on('connection', (ws) => {
 
 	// Send initial state of all clients
 	const initialState = Object.values(clients).map(c => ({
-		id : p.id,
-		position : p.position
+		id : c.id,
+		position : c.position
 	}))
 	ws.send(JSON.stringify({type : 'initial_state', states : initialState}))
 
@@ -51,6 +51,15 @@ SERVER.on('connection', (ws) => {
 			case 'position_update':
 				if (clients[ws.clientId]) {
 					clients[ws.clientId] = parsed.position
+                    SERVER.clients.forEach(c=> {
+                        if (c.readyState === WebSocket.OPEN) {
+                            c.send(JSON.stringify({
+                                type : "move_update",
+                                id : ws.clientId,
+                                position : parsed.position                    
+                            }))                        
+                        }
+                    })
 				}
 				break
 			case 'chat_message':
