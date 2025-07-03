@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://myjv46p62p8e"]
+
+[ext_resource type="Script" uid="uid://cpiaeghcy85kh" path="res://client/player.gd" id="1_8j15x"]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_8j15x")
+
+[node name="PositionUpdateTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="Chat" type="CanvasLayer" parent="."]
+
+[node name="Container" type="VBoxContainer" parent="Chat"]
+offset_right = 384.0
+offset_bottom = 648.0
+
+[node name="Messages" type="RichTextLabel" parent="Chat/Container"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+fit_content = true
+
+[node name="Enter" type="LineEdit" parent="Chat/Container"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[connection signal="timeout" from="PositionUpdateTimer" to="." method="_on_position_update_timer_timeout"]
+[connection signal="text_submitted" from="Chat/Container/Enter" to="." method="_on_enter_text_submitted"]
